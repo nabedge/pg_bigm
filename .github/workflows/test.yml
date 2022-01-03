@@ -22,20 +22,27 @@ jobs:
         with:
           path: postgres/contrib
 
-      - name: make and install PostgreSQL with extentions
+      - name: Make and install PostgreSQL and pg_trgm
         run: >
-          cd postgres
-          && ./configure --prefix=/var/pghome --enable-debug --enable-cassert
+          ./configure --prefix=/var/pghome --enable-debug --enable-cassert
           && make -j 2
           && make install
           && cd contrib/pg_trgm
           && make install
+
+      - name: Make and install pg_bigm
+        run: >
           && cd contrib/pg_bigm
           && make install
-          && /var/pghome/bin/initdb -D /var/pgdata --locale=C --encoding=UTF8
+
+
+      - name: Start PostgreSQL
+        run: >
+          /var/pghome/bin/initdb -D /var/pgdata --locale=C --encoding=UTF8
           && /var/pghome/bin/pg_ctl -D /var/pgdata -w start
 
       - name: run test
         run: >
-          make USE_PGXS=1 PG_CONFIG=/var/pghome/bin/pg_config installcheck
-          make USE_PGXS=1 PG_CONFIG=/var/pghome/bin/pg_config installcheck-trgm
+          cd contrib/pg_bigm
+          && make USE_PGXS=1 PG_CONFIG=/var/pghome/bin/pg_config installcheck
+          && make USE_PGXS=1 PG_CONFIG=/var/pghome/bin/pg_config installcheck-trgm
