@@ -26,10 +26,10 @@ jobs:
         # TODO あとでブランチ切り替えをかんがえる
         run: >
           ./configure --prefix=$GITHUB_WORKSPACE/pghome --enable-debug --enable-cassert
-          && make -j 2
-          && make install
+          && make --quiet -j 2
+          && make --quiet install
           && cd contrib/pg_trgm
-          && make install
+          && make --quiet install
 
       - name: Make and install pg_bigm
         run: >
