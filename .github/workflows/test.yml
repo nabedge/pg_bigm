@@ -14,8 +14,8 @@ jobs:
       - name: Checkout PostgreSQL source code
         uses: actions/checkout@v2
         with:
-          repository: git@github.com:postgres/postgres.git
-          ref: master
+          repository: "https://github.com/postgres/postgres"
+          ref: "master"
 
       - name: Checkout pg_bigm source code
         uses: actions/checkout@v2
