@@ -14,26 +14,30 @@ jobs:
       - name: Checkout PostgreSQL source code
         uses: actions/checkout@v2
         with:
-          repository: "postgres/postgres"
-          ref: "master"
+          clean: true
+          repository: postgres/postgres
+          ref: master
+          path: postgres
 
       - name: Checkout pg_bigm source code
         uses: actions/checkout@v2
         with:
-          path: contrib
+          clean: false
+          path: postgres/contrib/pg_bigm
 
       - name: Make and install PostgreSQL
         # TODO あとでブランチ切り替えをかんがえる
         run: >
-          ./configure --prefix=$GITHUB_WORKSPACE/pghome --enable-debug --enable-cassert
+          cd postgres
+          && ./configure --prefix=$GITHUB_WORKSPACE/pghome --enable-debug --enable-cassert
           && make --quiet -j 2
           && make --quiet install
 
       - name: Make and install pg_trgm
-        run: cd contrib/pg_trgm && make install
+        run: cd postgres/contrib/pg_trgm && make install
 
       - name: Make and install pg_bigm
-        run: cd contrib/pg_bigm && make install
+        run: cd postgres/contrib/pg_bigm && make install
 
       - name: Start PostgreSQL
         run: >
@@ -42,6 +46,6 @@ jobs:
 
       - name: Run test
         run: >
-          cd contrib/pg_bigm
+          cd postgres/contrib/pg_bigm
           && make USE_PGXS=1 PG_CONFIG=$GITHUB_WORKSPACE/pghome/bin/pg_config installcheck
           && make USE_PGXS=1 PG_CONFIG=$GITHUB_WORKSPACE/pghome/bin/pg_config installcheck-trgm
