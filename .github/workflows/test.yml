@@ -9,6 +9,22 @@ on:
 
 jobs:
   test:
+    strategy:
+      matrix:
+        branch: [
+            master,
+            REL_14_STABLE,
+            REL_13_STABLE,
+            REL_12_STABLE,
+            REL_11_STABLE,
+            REL_10_STABLE,
+            REL9_6_STABLE,
+            REL9_5_STABLE,
+            REL9_4_STABLE,
+            REL9_3_STABLE,
+            REL9_2_STABLE,
+            REL9_1_STABLE
+        ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PostgreSQL source code
@@ -16,7 +32,7 @@ jobs:
         with:
           clean: true
           repository: postgres/postgres
-          ref: master
+          ref: ${{ matrix.branch }}
           path: postgres
 
       - name: Checkout pg_bigm source code
