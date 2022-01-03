@@ -33,7 +33,7 @@ jobs:
 
       - name: Make and install pg_bigm
         run: >
-          && cd contrib/pg_bigm
+          cd contrib/pg_bigm
           && make install
 
       - name: Start PostgreSQL
