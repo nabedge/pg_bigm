@@ -21,8 +21,8 @@ jobs:
             REL9_6_STABLE,
             REL9_5_STABLE,
             REL9_4_STABLE,
-#            REL9_3_STABLE,
-#            REL9_2_STABLE,
+            REL9_3_STABLE,
+            REL9_2_STABLE,
 #            REL9_1_STABLE
         ]
     runs-on: ubuntu-18.04
