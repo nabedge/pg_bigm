@@ -22,19 +22,18 @@ jobs:
         with:
           path: contrib
 
-      - name: Make and install PostgreSQL and pg_trgm
+      - name: Make and install PostgreSQL
         # TODO あとでブランチ切り替えをかんがえる
         run: >
           ./configure --prefix=$GITHUB_WORKSPACE/pghome --enable-debug --enable-cassert
           && make --quiet -j 2
           && make --quiet install
-          && cd contrib/pg_trgm
-          && make --quiet install
+
+      - name: Make and install pg_trgm
+        run: cd contrib/pg_trgm && make install
 
       - name: Make and install pg_bigm
-        run: >
-          cd contrib/pg_bigm
-          && make install
+        run: cd contrib/pg_bigm && make install
 
       - name: Start PostgreSQL
         run: >
