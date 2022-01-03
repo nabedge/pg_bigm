@@ -23,7 +23,7 @@ jobs:
             REL9_4_STABLE,
             REL9_3_STABLE,
             REL9_2_STABLE,
-#            REL9_1_STABLE
+            # REL9_1_STABLE # Can't compile with gcc pre-installed on ubuntu at GHActions.
         ]
     runs-on: ubuntu-18.04
     steps:
