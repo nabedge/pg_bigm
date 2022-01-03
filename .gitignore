@@ -6,3 +6,7 @@ regression.*
 
 # Generated subdirectories
 /results/
+
+# IntelliJ IDEA
+*.iml
+.idea/
