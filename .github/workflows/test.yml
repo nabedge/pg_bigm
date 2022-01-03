@@ -42,7 +42,6 @@ jobs:
           path: postgres/contrib/pg_bigm
 
       - name: Make and install PostgreSQL
-        # TODO あとでブランチ切り替えをかんがえる
         run: >
           cd postgres
           && ./configure --prefix=$GITHUB_WORKSPACE/pghome --enable-debug --enable-cassert
