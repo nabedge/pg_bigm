@@ -23,8 +23,9 @@ jobs:
           path: postgres/contrib
 
       - name: Make and install PostgreSQL and pg_trgm
+        # TODO あとでブランチ切り替えをかんがえる
         run: >
-          ./configure --prefix=/var/pghome --enable-debug --enable-cassert
+          ./configure --prefix=$GITHUB_WORKSPACE/pghome --enable-debug --enable-cassert
           && make -j 2
           && make install
           && cd contrib/pg_trgm
@@ -35,14 +36,13 @@ jobs:
           && cd contrib/pg_bigm
           && make install
 
-
       - name: Start PostgreSQL
         run: >
-          /var/pghome/bin/initdb -D /var/pgdata --locale=C --encoding=UTF8
-          && /var/pghome/bin/pg_ctl -D /var/pgdata -w start
+          $GITHUB_WORKSPACE/pghome/bin/initdb -D $GITHUB_WORKSPACE/pgdata --locale=C --encoding=UTF8
+          && $GITHUB_WORKSPACE/pghome/bin/pg_ctl -D $GITHUB_WORKSPACE/pgdata -w start
 
-      - name: run test
+      - name: Run test
         run: >
           cd contrib/pg_bigm
-          && make USE_PGXS=1 PG_CONFIG=/var/pghome/bin/pg_config installcheck
-          && make USE_PGXS=1 PG_CONFIG=/var/pghome/bin/pg_config installcheck-trgm
+          && make USE_PGXS=1 PG_CONFIG=$GITHUB_WORKSPACE/pghome/bin/pg_config installcheck
+          && make USE_PGXS=1 PG_CONFIG=$GITHUB_WORKSPACE/pghome/bin/pg_config installcheck-trgm
